@@ -1,0 +1,63 @@
+{
+  "name": "remark-strip-html",
+  "version": "1.0.0",
+  "description": "Remove html formatting from Markdown",
+  "license": "MIT",
+  "keywords": [
+    "text",
+    "markdown",
+    "plain",
+    "text",
+    "remark"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/craftzdog/remark-strip-html.git"
+  },
+  "author": "Takuya Matsuyama <hi@craftz.dog>",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^14.0.0",
+    "esmangle": "^1.0.0",
+    "nyc": "^11.0.0",
+    "remark": "^8.0.0",
+    "remark-cli": "^4.0.0",
+    "remark-parse": "^4.0.0",
+    "remark-preset-wooorm": "^3.0.0",
+    "remark-stringify": "^4.0.0",
+    "tape": "^4.4.0",
+    "unified": "^6.1.6",
+    "unist-builder": "^1.0.2",
+    "xo": "^0.18.0"
+  },
+  "scripts": {
+    "build-bundle": "browserify index.js -s stripHtml > strip-html.js",
+    "build-mangle": "esmangle strip-html.js > strip-html.min.js",
+    "build": "npm run build-bundle && npm run build-mangle",
+    "lint": "xo",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 90,
+    "functions": 100,
+    "branches": 88
+  },
+  "xo": {
+    "space": true,
+    "esnext": false,
+    "ignores": [
+      "strip-html.js"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm"
+    ]
+  }
+}
