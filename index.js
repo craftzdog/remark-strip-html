@@ -74,6 +74,6 @@ function clean(values) {
 
 /* Return nothing. */
 function empty(token) {
-  const value = token.value.replace(/<(?:.|\n)*?>/gm, '');
+  var value = token.value.replace(/<(?:.|\n)*?>/gm, '');
   return {type: 'text', value: value};
 }
