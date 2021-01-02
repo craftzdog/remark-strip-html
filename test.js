@@ -3,16 +3,17 @@
 var test = require('tape');
 var remark = require('unified')()
   .use(require('remark-parse'))
+  .use(require('remark-gfm'))
   .use(require('remark-stringify'), {
     bullet: '*',
     emphasis: '*',
     listItemIndent: '1'
   });
 var u = require('unist-builder');
-var strip = require('./');
+var strip = require('.');
 
 function proc(value) {
-  return remark().use(strip).processSync(value).toString().trimRight();
+  return remark().use(strip).processSync(value).toString().trimEnd();
 }
 
 test('stripMarkdown()', function (t) {
@@ -60,7 +61,7 @@ test('stripMarkdown()', function (t) {
 
   t.equal(
     proc('- Hello\n- \n- World!'),
-    '* Hello\n* \n* World!',
+    '* Hello\n*\n* World!',
     'empty list item'
   );
 
@@ -75,10 +76,10 @@ test('stripMarkdown()', function (t) {
   t.equal(proc('![](image.png)'), '![](image.png)', 'image (3)');
   t.equal(proc('![An image][id]\n\n[id]: http://example.com/a.jpg'), '![An image][id]\n\n[id]: http://example.com/a.jpg', 'reference-style image');
 
-  t.equal(proc('---'), '* * *', 'thematic break');
-  t.equal(proc('A  \nB'), 'A  \nB', 'hard line break');
+  t.equal(proc('---'), '***', 'thematic break');
+  t.equal(proc('A  \nB'), 'A\\\nB', 'hard line break');
   t.equal(proc('A\nB'), 'A\nB', 'soft line break');
-  t.equal(proc('| A | B |\n| - | - |\n| C | D |'), '| A   | B   |\n| --- | --- |\n| C   | D   |', 'table');
+  t.equal(proc('| A | B |\n| - | - |\n| C | D |'), '| A | B |\n| - | - |\n| C | D |', 'table');
   t.equal(proc('    alert("hello");'), '    alert("hello");', 'code (1)');
   t.equal(proc('```js\nconsole.log("world");\n```'), '```js\nconsole.log("world");\n```', 'code (2)');
   t.equal(proc('<sup>Hello</sup>'), 'Hello', 'html (1)');

@@ -55,17 +55,17 @@ function clean(values) {
   var index = -1;
   var length = values.length;
   var result = [];
-  var prev = null;
+  var previous = null;
   var value;
 
   while (++index < length) {
     value = values[index];
 
-    if (prev && 'value' in value && value.type === prev.type) {
-      prev.value += value.value;
+    if (previous && 'value' in value && value.type === previous.type) {
+      previous.value += value.value;
     } else {
       result.push(value);
-      prev = value;
+      previous = value;
     }
   }
 
