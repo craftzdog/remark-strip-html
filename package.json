@@ -32,7 +32,7 @@
     "tape": "^5.1.0",
     "unified": "^9.2.0",
     "unist-builder": "^2.0.3",
-    "xo": "^0.36.1"
+    "xo": "^0.53.1"
   },
   "scripts": {
     "build-bundle": "browserify index.js -s stripHtml > strip-html.js",
